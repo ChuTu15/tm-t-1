@@ -1,0 +1,33 @@
+name: vietnam-map
+services:
+    tileserver-gl:
+        hostname: f1a91177e872
+        user: node:node
+        mac_address: 02:42:ac:11:00:02
+        environment:
+            - PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+            - NODE_ENV=production
+            - CHOKIDAR_USEPOLLING=1
+            - CHOKIDAR_INTERVAL=500
+        volumes:
+            - .\osm-2020-02-10-v3.11_asia_vietnam.mbtiles:/data/osm-2020-02-10-v3.11_asia_vietnam.mbtiles
+            - /data
+        network_mode: bridge
+        working_dir: /data
+        ports:
+            - 8080:8080
+        restart: no
+        labels:
+            - org.opencontainers.image.ref.name=ubuntu
+            - org.opencontainers.image.version=22.04
+        logging:
+            options:
+                max-file: 3
+                max-size: 10m
+        runtime: runc
+        tty: true
+        image: maptiler/tileserver-gl
+volumes:
+    D:
+        external: true
+        name: D
